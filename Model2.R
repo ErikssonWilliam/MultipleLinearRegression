@@ -1,5 +1,4 @@
-# Project code
-# Model 1
+# Model 2
 
 # Use the package to import data
 install.packages("readxl")
@@ -20,26 +19,17 @@ y=Data1$y
 x1=Data1$x1
 x2=Data1$x2
 
-#Plot x1 against x2 
-plot(x1,x2, pch=20, col = "cyan")
-
-#The line which can fit the observations
-abline(lm(x1~x2), col="blue")
-
-#Correlations y and x1, x2
-DataFrame=data.frame(y, x1, x2)
-cor(DataFrame[, c('x1', 'x2')], y)
-
-#Regression analysis
-Regression=lm(y~x1+x2)
-summary(Regression)
+# Consider model 2 with more explanatory variables
+x3=x1*x1
+x4=x2*x2
+x5=x1*x2
 
 #Install the package to sketch the estimated regression plane
 install.packages("alr4")
 library("alr4")
 
 #Plot the estimated plane together with the observations
-y =79.2089+1.0631*x1+0.5477*x2
+y =79.8225+1.0675*x1+0.4161*x2-1.1999*x3-0.4544*x4+0.7492*x5
 scatter3d(x1, y, x2, fit = "quadratic", surface.col = "green" )
 
 #Find SSE
@@ -54,3 +44,14 @@ SSR
 SST <- SSR + SSE
 SST
 
+
+#Correlations y and x1, x2, x3, x4, x5
+DataFrame=data.frame(y, x1, x2, x3, x4, x5)
+cor(DataFrame[, c('x1', 'x2', 'x3', 'x4', 'x5')], y)
+
+#Regression analysis 2
+Regression=lm(y~x1+x2+x3+x4+x5)
+summary(Regression)
+
+#Get 95% confidence interval for beta_j
+confint(Regression)
